@@ -5,19 +5,24 @@ BEGIN{
 {
     match($0,/[A-Z0-9]{10,12}/);
     id_conn=substr($0,RSTART,RLENGTH);
+    #ids[id_conn];
 }
 
 /postfix\/smtpd\[[0-9]+\]: [A-Z0-9]+: client=/{
     match($0,/client=.*/);
     orig=substr($0,RSTART+7,RLENGTH-7);
-    ids_in[id_conn];
+    #ids_in[id_conn];
+    ids[id_conn];
+    ids_type[id_conn]=inbound;
     ids_orig[id_conn]=orig;
 }
 
 /postfix\/submission\/smtpd\[[0-9]+\]: [A-Z0-9]+: client=/{
     match($0,/client=.*/);
     orig=substr($0,RSTART+7,RLENGTH-7);
-    ids_out[id_conn];
+    #ids_out[id_conn];
+    ids[id_conn];
+    ids_type[id_conn]=outbound;
     ids_orig[id_conn]=orig;
 }
 
@@ -62,7 +67,7 @@ BEGIN{
 }
     
 END{
-    for(id in ids_in){
-        print id" - "ids_time[id]" - "ids_orig[id]" - "ids_from[id]" -> "ids_to[id]" ["ids_status[id]"]";
+    for(id in ids){
+        print id" - "ids_type[id]" - "ids_time[id]" - "ids_orig[id]" - "ids_from[id]" -> "ids_to[id]" ["ids_status[id]"]";
     }
 }
