@@ -13,7 +13,7 @@ BEGIN{
     orig=substr($0,RSTART+7,RLENGTH-7);
     #ids_in[id_conn];
     ids[id_conn];
-    ids_type[id_conn]=inbound;
+    ids_type[id_conn]="inbound";
     ids_orig[id_conn]=orig;
 }
 
@@ -22,7 +22,7 @@ BEGIN{
     orig=substr($0,RSTART+7,RLENGTH-7);
     #ids_out[id_conn];
     ids[id_conn];
-    ids_type[id_conn]=outbound;
+    ids_type[id_conn]="outbound";
     ids_orig[id_conn]=orig;
 }
 
