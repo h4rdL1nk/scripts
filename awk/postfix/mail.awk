@@ -40,6 +40,9 @@ BEGIN{
     split(substr($0,RSTART,RLENGTH),c,"=");
     status=c[2];
     ids_status[id_conn]=status;
+
+    time=$1" "$2" "$3
+    ids_time[id_conn]=time
 }
 
 /postfix\/smtp\[[0-9]+\]: [A-Z0-9]+: to=/{
@@ -53,10 +56,13 @@ BEGIN{
     split(substr($0,RSTART,RLENGTH),c,"=");
     status=c[2];
     ids_status[id_conn]=status;
+
+    time=$1" "$2" "$3
+    ids_time[id_conn]=time
 }
     
 END{
     for(id in ids_in){
-        print id" - "ids_orig[id]" - "ids_from[id]" -> "ids_to[id]" ["ids_status[id]"]";
+        print id" - "ids_time[id]" - "ids_orig[id]" - "ids_from[id]" -> "ids_to[id]" ["ids_status[id]"]";
     }
 }
